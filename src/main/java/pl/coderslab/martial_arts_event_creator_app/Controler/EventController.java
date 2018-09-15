@@ -8,15 +8,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import pl.coderslab.martial_arts_event_creator_app.Entity.Event.Event;
+import pl.coderslab.martial_arts_event_creator_app.Model.Event.Event;
 import pl.coderslab.martial_arts_event_creator_app.Enum.Discipline;
 import pl.coderslab.martial_arts_event_creator_app.Enum.TypeOfEvent;
 import pl.coderslab.martial_arts_event_creator_app.Repository.EventRepository;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 @Controller
 public class EventController {

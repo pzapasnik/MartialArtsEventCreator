@@ -1,20 +1,22 @@
-package pl.coderslab.martial_arts_event_creator_app.Entity.User;
+package pl.coderslab.martial_arts_event_creator_app.Model.User;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import pl.coderslab.martial_arts_event_creator_app.Entity.Event.Event;
-import pl.coderslab.martial_arts_event_creator_app.Entity.Event.Category;
 import pl.coderslab.martial_arts_event_creator_app.Enum.Discipline;
 import pl.coderslab.martial_arts_event_creator_app.Enum.Gender;
+import pl.coderslab.martial_arts_event_creator_app.Enum.WeightClass;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
-@Table (name = "fighters")
-public class Fighter extends User {
+@Table(name = "fighter_details")
+public class FighterDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotEmpty
     @Column(nullable = false)
@@ -33,19 +35,21 @@ public class Fighter extends User {
 
     private Discipline discipline;
 
+    private WeightClass weightClass;
+
     private String team;
 
     private String amatureFightsScore;
+
     private String profesionalFightsScore;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @ManyToOne
-    private Category category;
 
-    @ManyToMany(mappedBy = "fighters")
-    private Set<Event> events;
 
-    public Fighter() {
+    public FighterDetails() {
     }
 
     public Double getWeight() {
@@ -89,14 +93,6 @@ public class Fighter extends User {
     }
 
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public String getTeam() {
         return team;
     }
@@ -121,11 +117,27 @@ public class Fighter extends User {
         this.profesionalFightsScore = profesionalFightsScore;
     }
 
-    public Set<Event> getEvents() {
-        return events;
+    public Long getId() {
+        return id;
     }
 
-    public void setEvents(Set<Event> events) {
-        this.events = events;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public WeightClass getWeightClass() {
+        return weightClass;
+    }
+
+    public void setWeightClass(WeightClass weightClass) {
+        this.weightClass = weightClass;
     }
 }
