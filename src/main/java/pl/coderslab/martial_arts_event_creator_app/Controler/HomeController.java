@@ -29,20 +29,20 @@ public class HomeController {
 //    Login page
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage(Model model){
-        model.addAttribute("user", new User());
+    public String loginPage(){
         return "login";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String loginPage(@Valid User user, BindingResult result) {
-
-        if(result.hasErrors()) {
-            return "login";
-        }
-        return"/main";
+    public String loginPageform() {
+        return"redirect:/main";
     }
 
+
+    @RequestMapping(value = "/main", method = RequestMethod.GET)
+    public String main() {
+        return"main";
+    }
 //    User Registery
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)

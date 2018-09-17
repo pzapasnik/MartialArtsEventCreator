@@ -42,12 +42,6 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
 
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        super.configure(web);
-
-    }
-
-    @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable();
@@ -56,9 +50,13 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("**/secured/**").authenticated()
                 .anyRequest().permitAll()
-                .and().formLogin().loginPage("/login").usernameParameter("email").passwordParameter("password")
+
+                .and().formLogin().loginPage("/login")
+                .usernameParameter("email").passwordParameter("password")
                 .successForwardUrl("/main").failureForwardUrl("/login?error=true")
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout=true")
+
+                .and().logout().logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout=true")
                 .permitAll();
 
 

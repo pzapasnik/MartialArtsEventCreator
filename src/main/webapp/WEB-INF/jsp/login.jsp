@@ -24,22 +24,23 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-<form:form method="post" modelAttribute="user">
+<c:url value="/login" var="loginVar"/>
+<form method="POST" action="${loginVar}" >
+    E-mail: <input path="email"/><br/>
 
-    E-mail: <form:input path="email"/><br/>
-    <form:errors path="email"
-                 cssClass="error" /><br/>
-
-    Password: <form:input path="password"/><br/>
-    <form:errors path="password"
-                 cssClass="error" /><br/>
+    Password:<input path="password"/><br/>
 
     <sec:csrfInput/>
 
     <c:if test="${param.error != null}">
         <p class="error">Invalid Email or Password</p>
     </c:if>
+
+    <c:if test="${param.logout != null}">
+        <p>You have succsessfully been logout</p>
+    </c:if>
+
     <input type="submit" value="Login">
-</form:form>
+</form>
 </body>
 </html>
