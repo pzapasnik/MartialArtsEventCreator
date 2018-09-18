@@ -9,12 +9,11 @@
     <meta charset="UTF-8">
     <title>Sing In</title>
     <link rel="stylesheet" href="https://unpkg.com/@coreui/coreui/dist/css/coreui.min.css">
-    <script src=""
     <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/global.js"></script>
+    <script type="text/javascript" src="/resources/js/global.js"></script>
 
     <style>
         .error {

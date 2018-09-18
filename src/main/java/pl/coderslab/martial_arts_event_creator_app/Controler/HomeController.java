@@ -33,13 +33,6 @@ public class HomeController {
         return "login";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String loginPageform() {
-
-
-        return"redirect:/main";
-    }
-
 //     Main Page
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
