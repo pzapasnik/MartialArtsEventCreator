@@ -14,7 +14,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
-    <script type="text/javascript" src="/resources/js/global.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/global.js"></script>
 
     <style>
         .error {
@@ -24,25 +24,6 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-
-<c:url value="/login" var="loginVar"/>
-<form method="post" action="${loginVar}">
-
-    E-mail: <input name="email"/><br/>
-
-    Password:<input type="password" name="password"/><br/>
-
-    <sec:csrfInput/>
-
-    <c:if test="${param.error != null}">
-        <p class="error">Invalid Email or Password</p>
-    </c:if>
-
-    <c:if test="${param.logout != null}">
-        <p>You have succsessfully been logout</p>
-    </c:if>
-
-    <button type="submit">Login</button>
-</form>
+<p>Main Page</p>
 </body>
 </html>

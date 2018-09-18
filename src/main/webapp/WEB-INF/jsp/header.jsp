@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
@@ -11,19 +12,15 @@
         </div>
 
         <ul class="nav navbar-nav">
-            <li><a href="/federations">Federations</a></li>
-            <li><a href="/events">Events</a></li>
-            <li><a href="/fighters">Fighters</a></li>
+            <li><a href="<spring:url value="/federations"/>">Federations</a></li>
+            <li><a href="<spring:url value="/events"/>">Events</a></li>
+            <li><a href="<spring:url value="/fighters"/>">Fighters</a></li>
 
             <sec:authorize access="isAuthenticated()" var="authenticated"/>
             <c:choose>
                 <c:when test="${authenticated}">
                     <li>
-                        <p class="navbar-text">
-                            Welcome
-                            <sec:authentication property="username"/>
-                            <a id="logout" href="#">Logout</a>
-                        </p>
+                        <a id="logout" href="#">Logout</a>
                         <form id="logout-form" action="<c:url value="/logout"/>" method="post">
                             <sec:csrfInput/>
                         </form>
@@ -31,8 +28,10 @@
                 </c:when>
                 <c:otherwise>
                     <li><a href="<spring:url value="/login"/>">Sing In</a></li>
+                    <li><a href="<spring:url value="/register"/>">Sing Up</a></li>
                 </c:otherwise>
             </c:choose>
+
         </ul>
     </div>
 </nav>

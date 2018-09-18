@@ -1,14 +1,14 @@
 package pl.coderslab.martial_arts_event_creator_app.Controler;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.*;
 import pl.coderslab.martial_arts_event_creator_app.Repository.UserRepository;
 import pl.coderslab.martial_arts_event_creator_app.Service.CustomUserDetailService;
@@ -35,14 +35,19 @@ public class HomeController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String loginPageform() {
+
+
         return"redirect:/main";
     }
 
+//     Main Page
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String main() {
+
         return"main";
     }
+
 //    User Registery
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -59,9 +64,14 @@ public class HomeController {
             return "/register";
 
         } else {
-            UserPrincipal.create(user);
+            user.setRole("ROLE_USER");
             userRepository.save(user);
-            return "";
+
+            Authentication auth = new UsernamePasswordAuthenticationToken(user,
+                    user.getPassword(), user.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            return "redirect:/main";
         }
     }
 
