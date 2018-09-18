@@ -52,11 +52,11 @@ public class HomeController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String registery(@Valid User user, BindingResult result) {
-
         if (result.hasErrors()) {
             return "/register";
 
         } else {
+
             user.setRole("ROLE_USER");
             userRepository.save(user);
 

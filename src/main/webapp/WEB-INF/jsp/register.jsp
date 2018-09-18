@@ -9,12 +9,11 @@
     <meta charset="UTF-8">
     <title>Sing In</title>
     <link rel="stylesheet" href="https://unpkg.com/@coreui/coreui/dist/css/coreui.min.css">
-    <script src=""
     <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/global.js"></script>
+    <script type="text/javascript" src="/resources/js/global.js"></script>
 
     <style>
         .error {
@@ -24,6 +23,20 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-<p>Main Page</p>
+    <form:form method="post" modelAttribute="user">
+    Email: <form:input path="email" /><br>
+        <form:errors path="email" cssClass="error"/><br>
+    Password: <form:password path="password" /><br>
+        <form:errors path="password" cssClass="error"/><br>
+    First Name: <form:input path="firstName"/><br>
+        <form:errors path="firstName" cssClass="error"/><br>
+    Last Name: <form:input path="lastName"/><br>
+        <form:errors path="lastName" cssClass="error"/><br>
+    Phone Number: <form:input path="phoneNumber"/><br>
+        <form:errors path="phoneNumber" cssClass="error"/><br>
+    Address: <form:input path="address"/><br>
+        <form:errors path="address" cssClass="error"/><br>
+        <button type="submit">Register</button>
+    </form:form>
 </body>
 </html>

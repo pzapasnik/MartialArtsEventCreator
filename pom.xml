@@ -89,6 +89,13 @@
             <version>5.4.1.Final</version>
         </dependency>
 
+        <!--PASSAY FOR PASSWORD VALIDATION-->
+        <dependency>
+            <groupId>org.passay</groupId>
+            <artifactId>passay</artifactId>
+            <version>1.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

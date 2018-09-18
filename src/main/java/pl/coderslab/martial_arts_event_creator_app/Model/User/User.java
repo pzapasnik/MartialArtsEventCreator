@@ -8,9 +8,13 @@ import org.springframework.stereotype.Controller;
 import pl.coderslab.martial_arts_event_creator_app.Enum.RoleName;
 import pl.coderslab.martial_arts_event_creator_app.Model.Event.Event;
 import pl.coderslab.martial_arts_event_creator_app.Model.Event.Federation;
+import pl.coderslab.martial_arts_event_creator_app.Validator.Password;
+import pl.coderslab.martial_arts_event_creator_app.Validator.UserExists;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -21,11 +25,13 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @UserExists
     @Email
     @NotEmpty
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Password
     @NotEmpty
     @Column(nullable = false)
     private String password;
@@ -38,6 +44,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastName;
 
+    @Pattern(regexp = "([0-9]+)", message = "phone number must contains only numbers")
     @NotEmpty
     @Column(nullable = false, unique = true)
     private String phoneNumber;
