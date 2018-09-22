@@ -14,7 +14,7 @@ mainly amateur but allows professional events for Martial Arts Sports.
 <li> List Fighters based on their discipline and score (Amateur or Professional)</li>
 </ul>
 
-<h3>Technologies</h3>
+<h2>Technologies</h2>
 <ul>
 <li>Java 8 EE</li>
 <li>Java Script</li>
