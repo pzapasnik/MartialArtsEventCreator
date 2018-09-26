@@ -134,13 +134,13 @@ public class HomeController {
 //    @RequestMapping(value = "/fighterdts", method = RequestMethod.GET)
 //    public String fighterDTS(Model model) {
 //
-//        model.addAttribute("fighterDetails", new FighterDetails());
+//        model.addAttribute("fighterDetails", new FighterDetailsRepository());
 //
 //        return "fighterdts";
 //    }
 //
 //    @RequestMapping(value = "fighterdts", method = RequestMethod.POST)
-//    public String regFighterDTE (@Valid FighterDetails fighterDetails, BindingResult result, HttpSession session){
+//    public String regFighterDTE (@Valid FighterDetailsRepository fighterDetails, BindingResult result, HttpSession session){
 //
 //        if(result.hasErrors()) {
 //            return "fighterdts";
