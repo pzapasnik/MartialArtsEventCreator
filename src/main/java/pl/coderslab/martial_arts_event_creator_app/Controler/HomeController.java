@@ -101,6 +101,7 @@ public class HomeController {
 
         user.ifPresent(u -> {
             u.setFighterDetails(fighterDetails);
+            fighterDetails.setUser(u);
             userRepository.save(u);
 
             Authentication auth = new UsernamePasswordAuthenticationToken(user,
