@@ -4,19 +4,15 @@ import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
-import pl.coderslab.martial_arts_event_creator_app.Enum.RoleName;
 import pl.coderslab.martial_arts_event_creator_app.Model.Event.Event;
 import pl.coderslab.martial_arts_event_creator_app.Model.Event.Federation;
 import pl.coderslab.martial_arts_event_creator_app.Validator.Password;
 import pl.coderslab.martial_arts_event_creator_app.Validator.UserExists;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -53,6 +49,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String address;
 
+
     @ManyToMany( fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -67,8 +64,7 @@ public class User implements UserDetails {
 
 //    MENAGER DETAILS
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "federation_id")
+    @OneToOne(mappedBy = "menager", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Federation federation;
 
 
@@ -180,7 +176,8 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    //    UserDetails IMPLEMENTATION
+
+//    UserDetails IMPLEMENTATION
 
 
     @Override

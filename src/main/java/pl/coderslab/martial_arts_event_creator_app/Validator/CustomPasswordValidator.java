@@ -2,11 +2,11 @@ package pl.coderslab.martial_arts_event_creator_app.Validator;
 
 import org.passay.*;
 import org.passay.PasswordValidator;
+import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;
-
 
 public class CustomPasswordValidator implements ConstraintValidator<Password, String> {
     @Override

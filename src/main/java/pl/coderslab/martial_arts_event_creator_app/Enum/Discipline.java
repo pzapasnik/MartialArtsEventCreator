@@ -1,7 +1,7 @@
 package pl.coderslab.martial_arts_event_creator_app.Enum;
 
 public enum Discipline {
-    MIXED_MARCIAL_ARTS("Mixed Marcial Arts"),
+    MIXED_MARCIAL_ARTS("Mixed Martial Arts"),
     KICKBOXING("Kickboxing - K1");
 //    BRAZYLIAN_JUJITSU("Brazilian Jiu-Jitsu"),
 //    NO_GI("Subbmision No Gi"),

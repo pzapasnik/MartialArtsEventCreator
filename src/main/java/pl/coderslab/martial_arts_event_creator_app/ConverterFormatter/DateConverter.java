@@ -14,7 +14,7 @@ public class DateConverter implements Converter<String, Date> {
     public Date convert(String s) {
         Date date = null;
         try {
-            date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(s);
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(s);
         } catch (ParseException e) {
             e.printStackTrace();
             System.out.print("jestem w converterze");

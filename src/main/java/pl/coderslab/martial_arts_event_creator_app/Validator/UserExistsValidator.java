@@ -1,6 +1,7 @@
 package pl.coderslab.martial_arts_event_creator_app.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.User;
 import pl.coderslab.martial_arts_event_creator_app.Repository.UserRepository;
 
@@ -9,6 +10,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Optional;
 
+@Component
 public class UserExistsValidator  implements ConstraintValidator<UserExists, String> {
 
     @Autowired
@@ -21,10 +23,14 @@ public class UserExistsValidator  implements ConstraintValidator<UserExists, Str
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext constraintValidatorContext) {
-        if (userRepository.existsByEmail(email)) {
-            return false;
-        } else {
-            return true;
+        try {
+                if (userRepository.existsByEmail(email)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } catch (NullPointerException e) {
+                    return true;
         }
     }
 }

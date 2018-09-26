@@ -23,26 +23,28 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-    <form:form method="post" modelAttribute="user">
-    Email: <form:input path="email" /><br>
-        <form:errors path="email" cssClass="error"/><br>
-    Password: <form:password path="password" /><br>
-        <form:errors path="password" cssClass="error"/><br>
-    First Name: <form:input path="firstName"/><br>
-        <form:errors path="firstName" cssClass="error"/><br>
-    Last Name: <form:input path="lastName"/><br>
-        <form:errors path="lastName" cssClass="error"/><br>
-    Phone Number: <form:input path="phoneNumber"/><br>
-        <form:errors path="phoneNumber" cssClass="error"/><br>
-    Address: <form:input path="address"/><br>
-        <form:errors path="address" cssClass="error"/><br>
 
-        <c:if test="${param.menager == null}">
-            Register as a Fighter <input type =checkbox name="fighter"/>
-        </c:if>
+<form:form method="post" modelAttribute="fighterDetails">
+    Team: <form:input path="team"/><br>
+    <form:errors path="team" cssClass="error"/><br>
+    Weight: <form:input path="weight"/><br>
+    <form:errors path="weight" cssClass="error"/><br>
+   Hight: <form:input path="hight"/><br>
+    <form:errors path="hight" cssClass="error"/><br>
 
-        <sec:csrfInput/>
-        <button type="submit">Register</button>
-    </form:form>
+    Birth Year <form:input path="yearOfBirth" type="date"  /><br>
+        <form:errors path="yearOfBirth" cssClass="error"/><br>
+
+    Gender: <br/>
+    MALE:<form:radiobutton path="gender" value="MALE" /><br>
+    FEMALE:<form:radiobutton path="gender" value="FEMALE" />
+        <form:errors path="gender" cssClass="error"/><br>
+
+    Discipline: <form:select path="discipline" items="${disciplines}" itemLabel="label"/><br>
+    <form:errors path="discipline" cssClass="error"/><br>
+    <sec:csrfInput/>
+    <button type="submit">Register</button>
+</form:form>
+
 </body>
 </html>

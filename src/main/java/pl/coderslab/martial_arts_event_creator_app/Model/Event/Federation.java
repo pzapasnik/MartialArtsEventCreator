@@ -12,13 +12,14 @@ public class Federation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @Column (name = "feceration_name")
+    @Column (name = "federation_name")
     private String name;
 
     @OneToMany(mappedBy = "federation")
     private Set<Event> events;
 
-    @OneToOne(mappedBy = "federation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User menager;
 
     public Federation() {

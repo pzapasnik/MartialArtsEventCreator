@@ -7,6 +7,7 @@ import pl.coderslab.martial_arts_event_creator_app.Enum.WeightClass;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.util.Date;
 
@@ -18,23 +19,26 @@ public class FighterDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
+
     @Column(nullable = false)
     private Double weight;
 
-    @NotEmpty
+
     @Column(nullable = false)
     private Double hight;
 
-    @NotEmpty
+    @NotNull
     @Past
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date yearOfBirth;
 
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @Enumerated(EnumType.STRING)
     private Discipline discipline;
 
+    @Enumerated(EnumType.STRING)
     private WeightClass weightClass;
 
     private String team;
