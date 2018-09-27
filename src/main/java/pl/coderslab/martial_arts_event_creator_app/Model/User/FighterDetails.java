@@ -6,9 +6,11 @@ import pl.coderslab.martial_arts_event_creator_app.Enum.Gender;
 import pl.coderslab.martial_arts_event_creator_app.Enum.WeightClass;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -19,13 +21,13 @@ public class FighterDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
+    @Digits(integer = 5, fraction = 2)
     @Column(nullable = false)
-    private Double weight;
+    private BigDecimal weight;
 
-
+    @Digits(integer = 3, fraction = 2)
     @Column(nullable = false)
-    private Double hight;
+    private BigDecimal hight;
 
     @NotNull
     @Past
@@ -56,19 +58,19 @@ public class FighterDetails {
     public FighterDetails() {
     }
 
-    public Double getWeight() {
+    public BigDecimal getWeight() {
         return weight;
     }
 
-    public void setWeight(Double weight) {
+    public void setWeight(BigDecimal weight) {
         this.weight = weight;
     }
 
-    public Double getHight() {
+    public BigDecimal getHight() {
         return hight;
     }
 
-    public void setHight(Double hight) {
+    public void setHight(BigDecimal hight) {
         this.hight = hight;
     }
 
