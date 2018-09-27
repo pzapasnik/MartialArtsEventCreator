@@ -4,19 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.martial_arts_event_creator_app.Enum.Discipline;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.*;
+import pl.coderslab.martial_arts_event_creator_app.Repository.AdminDetailsRepository;
 import pl.coderslab.martial_arts_event_creator_app.Repository.UserRepository;
-import pl.coderslab.martial_arts_event_creator_app.Service.CustomUserDetailService;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.net.Authenticator;
 import java.util.*;
 
 
@@ -26,6 +24,9 @@ public class HomeController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    AdminDetailsRepository adminDetailsRepository;
 
     @ModelAttribute("disciplines")
     public Collection<Discipline> populateDisciplines() {
@@ -83,6 +84,9 @@ public class HomeController {
             return "redirect:/main";
         }
 
+
+//  Fighter Registery
+
     @RequestMapping(value = "/registerFighter", method = RequestMethod.GET)
     public String fighter(Model model) {
         model.addAttribute("fighterDetails", new FighterDetails());
@@ -104,54 +108,18 @@ public class HomeController {
             fighterDetails.setUser(u);
             userRepository.save(u);
 
+            Optional <AdminDetails> adminDetails = adminDetailsRepository.findById(1L);
+            adminDetails.ifPresent(a -> {
+                a.addUserToVerify(u);
+                adminDetailsRepository.save(a);
+            });
+
             Authentication auth = new UsernamePasswordAuthenticationToken(user,
                     u.getPassword(), u.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);
         });
         return"redirect:/main";
     }
-//    Fighter Registery
-
-//    @RequestMapping(value = "/registerfighter", method = RequestMethod.GET)
-//    public String registerFighter(Model model) {
-//
-//        model.addAttribute("user", new User());
-//        return "registerFighter";
-//    }
-//
-//    @RequestMapping(value = "/registerfighter", method = RequestMethod.POST)
-//    public String regFighter(@Valid User user, BindingResult result, Model model) {
-//
-//        if(result.hasErrors()) {
-//            return "registerFighter";
-//
-//        } else {
-//            userRepository.save(user);
-//            model.addAttribute("fighterId", user.getId());
-//            return "redirect:/fighterdts";
-//        }
-//    }
-//
-//    @RequestMapping(value = "/fighterdts", method = RequestMethod.GET)
-//    public String fighterDTS(Model model) {
-//
-//        model.addAttribute("fighterDetails", new FighterDetailsRepository());
-//
-//        return "fighterdts";
-//    }
-//
-//    @RequestMapping(value = "fighterdts", method = RequestMethod.POST)
-//    public String regFighterDTE (@Valid FighterDetailsRepository fighterDetails, BindingResult result, HttpSession session){
-//
-//        if(result.hasErrors()) {
-//            return "fighterdts";
-//        } else {
-//            Long id = (Long) session.getAttribute("fighterId");
-//            User user = userRepository.getOne(id);
-//            user.setFighterDetails(fighterDetails);
-//            userRepository.save(user);
-//            return "";
-//    }
 
 
 //    Menager Registery
