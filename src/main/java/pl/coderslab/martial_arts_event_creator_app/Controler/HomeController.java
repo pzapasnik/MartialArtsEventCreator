@@ -108,6 +108,7 @@ public class HomeController {
             fighterDetails.setUser(u);
             userRepository.save(u);
 
+//            Adding Fighter to be verified by admin
             Optional <AdminDetails> adminDetails = adminDetailsRepository.findById(1L);
             adminDetails.ifPresent(a -> {
                 a.addUserToVerify(u);
