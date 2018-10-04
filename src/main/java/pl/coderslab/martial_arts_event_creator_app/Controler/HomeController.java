@@ -1,6 +1,7 @@
 package pl.coderslab.martial_arts_event_creator_app.Controler;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,13 +14,16 @@ import pl.coderslab.martial_arts_event_creator_app.Model.User.*;
 import pl.coderslab.martial_arts_event_creator_app.Repository.AdminDetailsRepository;
 import pl.coderslab.martial_arts_event_creator_app.Repository.UserRepository;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.*;
 
 
 @Controller
-@SessionAttributes("userEmail")
+@SessionAttributes(value = {"userEmail", "singUpValidation"})
 public class HomeController {
 
     @Autowired
@@ -74,6 +78,7 @@ public class HomeController {
 
             if(fighter != null){
                 model.addAttribute("userEmail", user.getEmail());
+                model.addAttribute("singUpValidation", "fighter");
                 return"redirect:/registerFighter";
             }
 
@@ -88,9 +93,23 @@ public class HomeController {
 //  Fighter Registery
 
     @RequestMapping(value = "/registerFighter", method = RequestMethod.GET)
-    public String fighter(Model model) {
-        model.addAttribute("fighterDetails", new FighterDetails());
-        return "registerFighter";
+    public String fighter(Model model, HttpSession ses) {
+
+        try {
+            String validURL = (String) ses.getAttribute("singUpValidation");
+            System.out.print(validURL);
+
+            if (validURL.equals("fighter")) {
+                model.addAttribute("fighterDetails", new FighterDetails());
+                return "registerFighter";
+
+            } else {
+                return "redirect:/register";
+            }
+
+        } catch (NullPointerException e) {
+            return "redirect:/register";
+        }
     }
 
 
@@ -100,7 +119,7 @@ public class HomeController {
         if (result.hasErrors()) {
             return"registerFighter";
         }
-        System.out.print(ses.getAttribute("userEmail"));
+        ses.removeAttribute("singUpValidation");
         Optional<User> user = userRepository.findByEmail((String) ses.getAttribute("userEmail"));
 
         user.ifPresent(u -> {
