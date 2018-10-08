@@ -2,6 +2,7 @@ package pl.coderslab.martial_arts_event_creator_app.Model.Event;
 
 import pl.coderslab.martial_arts_event_creator_app.Enum.Discipline;
 import pl.coderslab.martial_arts_event_creator_app.Enum.TypeOfEvent;
+import pl.coderslab.martial_arts_event_creator_app.Model.User.MenagerDetails;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.User;
 
 import javax.persistence.*;
@@ -50,7 +51,7 @@ public class Event {
 
 
     @ManyToOne
-    private Federation federation;
+    private MenagerDetails menagerDetails;
 
     @OneToMany (mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Fight> fights;
@@ -71,12 +72,12 @@ public class Event {
     }
 
 
-    public Federation getFederation() {
-        return federation;
+    public MenagerDetails getMenagerDetails() {
+        return menagerDetails;
     }
 
-    public void setFederation(Federation federation) {
-        this.federation = federation;
+    public void setMenagerDetails(MenagerDetails menagerDetails) {
+        this.menagerDetails = menagerDetails;
     }
 
     public Date getEventDate() {

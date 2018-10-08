@@ -1,7 +1,6 @@
 package pl.coderslab.martial_arts_event_creator_app.Controler;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,17 +9,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.martial_arts_event_creator_app.Enum.Discipline;
-import pl.coderslab.martial_arts_event_creator_app.Model.Event.Federation;
+import pl.coderslab.martial_arts_event_creator_app.Model.User.MenagerDetails;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.*;
 import pl.coderslab.martial_arts_event_creator_app.Repository.AdminDetailsRepository;
 import pl.coderslab.martial_arts_event_creator_app.Repository.FederationRepository;
 import pl.coderslab.martial_arts_event_creator_app.Repository.UserRepository;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.*;
 
 
@@ -90,7 +86,7 @@ public class HomeController {
             if(account.equals("menager")){
                 model.addAttribute("userEmail", user.getEmail());
                 model.addAttribute("singUpValidation", "menager");
-                return"redirect:/registerfederation";
+                return"redirect:/registermenager";
             }
 
             Authentication auth = new UsernamePasswordAuthenticationToken(user,
@@ -152,14 +148,14 @@ public class HomeController {
     }
 
 
-    @RequestMapping(value = "/registerfederation", method = RequestMethod.GET)
+    @RequestMapping(value = "/registermenager", method = RequestMethod.GET)
     public String registerFederation(Model model, HttpSession ses) {
         try {
             String validURL = (String) ses.getAttribute("singUpValidation");
 
             if (validURL.equals("menager")) {
-                model.addAttribute("federation", new Federation());
-                return "registerFederation";
+                model.addAttribute("menagerDetails", new MenagerDetails());
+                return "registerMenager";
 
             } else {
                 return "redirect:/register";
@@ -170,22 +166,22 @@ public class HomeController {
         }
     }
 
-    @RequestMapping(value = "/registerfederation", method = RequestMethod.POST)
-    public String regFederation(@Valid Federation federation,
+    @RequestMapping(value = "/registermenager", method = RequestMethod.POST)
+    public String regFederation(@Valid MenagerDetails menagerDetails,
                                 BindingResult result, HttpSession ses){
 
         if (result.hasErrors()) {
-            return "registerFederation";
+            return "registerMenager";
         }
         ses.removeAttribute("singUpValidation");
         Optional<User> user = userRepository.findByEmail((String) ses.getAttribute("userEmail"));
 
         user.ifPresent(u -> {
-                    u.setFederation(federation);
-                    federation.setMenager(u);
+                    u.setMenagerDetails(menagerDetails);
+                    menagerDetails.setMenager(u);
                     userRepository.save(u);
 
-//            Adding Federation to be verified by admin
+//            Adding MenagerDetails to be verified by admin
                     Optional <AdminDetails> adminDetails = adminDetailsRepository.findById(1L);
                     adminDetails.ifPresent(a -> {
                         a.addUserToVerify(u);
@@ -198,30 +194,5 @@ public class HomeController {
         });
         return"redirect:/main";
     }
-
-//    Menager Registery
-
-//    @RequestMapping(value = "/registermenager", method = RequestMethod.GET)
-//    public String registerMenager(Model model) {
-//        model.addAttribute("menager", new Menager());
-//        return "registermenager";
-//    }
-//
-//    @RequestMapping(value = "/registermenager", method = RequestMethod.POST)
-//    public String regMenager(@Valid Menager menager, BindingResult result){
-//
-//        if (result.hasErrors()) {
-//            return "registermenager";
-//
-//        } else {
-//
-//            String email = menager.getEmail();
-//            menagerRepository.save(menager);
-//            AdminDetails.addUsertuVerify(menagerRepository.findByEmail(email));
-//
-//            return "redirect:menagerIndex" + email;
-//
-//        }
-//    }
 }
 

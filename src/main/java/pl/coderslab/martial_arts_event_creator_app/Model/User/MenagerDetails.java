@@ -1,28 +1,29 @@
-package pl.coderslab.martial_arts_event_creator_app.Model.Event;
+package pl.coderslab.martial_arts_event_creator_app.Model.User;
 
+import pl.coderslab.martial_arts_event_creator_app.Model.Event.Event;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.User;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Federation {
+public class MenagerDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @Column (name = "federation_name")
-    private String name;
+    @Column (name = "organization_name")
+    private String organizationName;
 
-    @OneToMany(mappedBy = "federation")
+    @OneToMany(mappedBy = "menagerDetails")
     private Set<Event> events;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User menager;
 
-    public Federation() {
+    public MenagerDetails() {
     }
 
     public Long getId() {
@@ -33,12 +34,12 @@ public class Federation {
         Id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getOrganizationName() {
+        return organizationName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
     }
 
 

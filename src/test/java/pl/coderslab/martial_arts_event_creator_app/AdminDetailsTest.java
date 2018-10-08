@@ -3,12 +3,11 @@ package pl.coderslab.martial_arts_event_creator_app;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import org.junit.Test;
-import pl.coderslab.martial_arts_event_creator_app.Model.Event.Federation;
+import pl.coderslab.martial_arts_event_creator_app.Model.User.MenagerDetails;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.AdminDetails;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.User;
 
 import java.util.HashSet;
-import java.util.Set;
 
 public class AdminDetailsTest {
 
@@ -53,38 +52,5 @@ public class AdminDetailsTest {
 
         adminDetails.removeUserFromVerification(user);
         assertThat(adminDetails.getUsersToVerify(), not(hasItem(user)));
-    }
-
-    @Test
-    public void addFeterationToVerifyTest() {
-        Federation f = new Federation();
-        f.setId(1L);
-        f.setName("test");
-
-        AdminDetails adminDetails = new AdminDetails();
-        adminDetails.setId(1L);
-        adminDetails.setFederationsToVerify(new HashSet<>());
-
-        adminDetails.addFederationToVerify(f);
-
-        assertThat(adminDetails.getFederationsToVerify(), hasItem(f));
-    }
-
-    @Test
-    public void removeFederationFromVerificationTest() {
-        Federation f = new Federation();
-        f.setId(1L);
-        f.setName("test");
-
-        AdminDetails adminDetails = new AdminDetails();
-        adminDetails.setId(1L);
-        adminDetails.setFederationsToVerify(new HashSet<>());
-
-        adminDetails.addFederationToVerify(f);
-
-        assertThat(adminDetails.getFederationsToVerify(), hasItem(f));
-
-        adminDetails.removeFederationFromVerification(f);
-        assertThat(adminDetails.getFederationsToVerify(), not(hasItem(f)));
     }
 }

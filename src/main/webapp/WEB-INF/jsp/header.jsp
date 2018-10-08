@@ -12,7 +12,7 @@
         </div>
 
         <ul class="nav navbar-nav">
-            <li><a href="<spring:url value="/federations"/>">Federations</a></li>
+            <li><a href="<spring:url value="/menagerDetails"/>">Federations</a></li>
             <li><a href="<spring:url value="/events"/>">Events</a></li>
             <li><a href="<spring:url value="/fighters"/>">Fighters</a></li>
 

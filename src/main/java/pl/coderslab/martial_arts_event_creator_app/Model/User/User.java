@@ -1,11 +1,11 @@
 package pl.coderslab.martial_arts_event_creator_app.Model.User;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import pl.coderslab.martial_arts_event_creator_app.Model.Event.Event;
-import pl.coderslab.martial_arts_event_creator_app.Model.Event.Federation;
 import pl.coderslab.martial_arts_event_creator_app.Validator.Password;
 import pl.coderslab.martial_arts_event_creator_app.Validator.UserExists;
 
@@ -42,6 +42,7 @@ public class User implements UserDetails {
 
     @Pattern(regexp = "([0-9]+)", message = "phone number must contains only numbers")
     @NotEmpty
+    @UniqueElements
     @Column(nullable = false, unique = true)
     private String phoneNumber;
 
@@ -65,7 +66,7 @@ public class User implements UserDetails {
 //    MENAGER DETAILS
 
     @OneToOne(mappedBy = "menager", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Federation federation;
+    private MenagerDetails menagerDetails;
 
 
 //    ATENDING EVENTS
@@ -152,12 +153,12 @@ public class User implements UserDetails {
         this.fighterDetails = fighterDetails;
     }
 
-    public Federation getFederation() {
-        return federation;
+    public MenagerDetails getMenagerDetails() {
+        return menagerDetails;
     }
 
-    public void setFederation(Federation federation) {
-        this.federation = federation;
+    public void setMenagerDetails(MenagerDetails menagerDetails) {
+        this.menagerDetails = menagerDetails;
     }
 
     public Set<Event> getEvents() {
