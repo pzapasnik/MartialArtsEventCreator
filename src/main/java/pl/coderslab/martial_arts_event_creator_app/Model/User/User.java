@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import pl.coderslab.martial_arts_event_creator_app.Model.Event.Event;
 import pl.coderslab.martial_arts_event_creator_app.Validator.Password;
+import pl.coderslab.martial_arts_event_creator_app.Validator.PhoneNumberIsTaken;
 import pl.coderslab.martial_arts_event_creator_app.Validator.UserExists;
 
 import javax.persistence.*;
@@ -40,9 +41,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastName;
 
+    @PhoneNumberIsTaken
     @Pattern(regexp = "([0-9]+)", message = "phone number must contains only numbers")
     @NotEmpty
-    @UniqueElements
     @Column(nullable = false, unique = true)
     private String phoneNumber;
 
