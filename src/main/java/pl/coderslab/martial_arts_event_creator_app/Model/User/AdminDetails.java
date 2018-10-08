@@ -60,8 +60,18 @@ public class AdminDetails {
         this.setUsersToVerify(users);
     }
 
-    private void addFederationToVerify(Federation federation) {
-        this.federationsToVerify.add(federation);
+    public void addFederationToVerify(Federation federation) {
+        Set<Federation> federations = this.getFederationsToVerify();
+        federations.add(federation);
+        this.setFederationsToVerify(federations);
     }
+
+    public void removeFederationFromVerification(Federation federation) {
+        Set<Federation> federations = this.getFederationsToVerify();
+        federations.remove(federation);
+        this.setFederationsToVerify(federations);
+    }
+
+
 
 }

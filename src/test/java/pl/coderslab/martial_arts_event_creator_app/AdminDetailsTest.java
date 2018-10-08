@@ -3,6 +3,7 @@ package pl.coderslab.martial_arts_event_creator_app;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import org.junit.Test;
+import pl.coderslab.martial_arts_event_creator_app.Model.Event.Federation;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.AdminDetails;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.User;
 
@@ -24,10 +25,9 @@ public class AdminDetailsTest {
 
         AdminDetails adminDetails = new AdminDetails();
         adminDetails.setId(1L);
+        adminDetails.setUsersToVerify(new HashSet<>());
 
-        Set<User> usersToVerify = new HashSet<>();
-        usersToVerify.add(user);
-        adminDetails.setUsersToVerify(usersToVerify);
+        adminDetails.addUserToVerify(user);
 
         assertThat(adminDetails.getUsersToVerify(), hasItem(user));
     }
@@ -42,16 +42,49 @@ public class AdminDetailsTest {
         user.setLastName("test");
         user.setRole("ROLE_USER");
         user.setAddress("test");
+        user.setPhoneNumber("0000");
 
         AdminDetails adminDetails = new AdminDetails();
         adminDetails.setId(1L);
+        adminDetails.setUsersToVerify(new HashSet<>());
 
-        Set<User> usersToVerify = new HashSet<>();
-        usersToVerify.add(user);
-        adminDetails.setUsersToVerify(usersToVerify);
-        usersToVerify.remove(user);
-        adminDetails.setUsersToVerify(usersToVerify);
+        adminDetails.addUserToVerify(user);
+        assertThat(adminDetails.getUsersToVerify(), hasItem(user));
 
+        adminDetails.removeUserFromVerification(user);
         assertThat(adminDetails.getUsersToVerify(), not(hasItem(user)));
+    }
+
+    @Test
+    public void addFeterationToVerifyTest() {
+        Federation f = new Federation();
+        f.setId(1L);
+        f.setName("test");
+
+        AdminDetails adminDetails = new AdminDetails();
+        adminDetails.setId(1L);
+        adminDetails.setFederationsToVerify(new HashSet<>());
+
+        adminDetails.addFederationToVerify(f);
+
+        assertThat(adminDetails.getFederationsToVerify(), hasItem(f));
+    }
+
+    @Test
+    public void removeFederationFromVerificationTest() {
+        Federation f = new Federation();
+        f.setId(1L);
+        f.setName("test");
+
+        AdminDetails adminDetails = new AdminDetails();
+        adminDetails.setId(1L);
+        adminDetails.setFederationsToVerify(new HashSet<>());
+
+        adminDetails.addFederationToVerify(f);
+
+        assertThat(adminDetails.getFederationsToVerify(), hasItem(f));
+
+        adminDetails.removeFederationFromVerification(f);
+        assertThat(adminDetails.getFederationsToVerify(), not(hasItem(f)));
     }
 }
