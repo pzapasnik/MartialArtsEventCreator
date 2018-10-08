@@ -37,9 +37,12 @@
     Address: <form:input path="address"/><br>
         <form:errors path="address" cssClass="error"/><br>
 
-        <c:if test="${param.menager == null}">
-            Register as a Fighter <input type =checkbox name="fighter"/>
-        </c:if>
+        <select name="account">
+            <option value="user">as User</option>
+            <option value="fighter">as Fighter</option>
+            <option value="menager">as a Federation Menager</option>
+        </select>
+            
 
         <sec:csrfInput/>
         <button type="submit">Register</button>

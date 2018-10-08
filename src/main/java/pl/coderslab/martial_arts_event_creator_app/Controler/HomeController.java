@@ -10,8 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.martial_arts_event_creator_app.Enum.Discipline;
+import pl.coderslab.martial_arts_event_creator_app.Model.Event.Federation;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.*;
 import pl.coderslab.martial_arts_event_creator_app.Repository.AdminDetailsRepository;
+import pl.coderslab.martial_arts_event_creator_app.Repository.FederationRepository;
 import pl.coderslab.martial_arts_event_creator_app.Repository.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +33,9 @@ public class HomeController {
 
     @Autowired
     AdminDetailsRepository adminDetailsRepository;
+
+    @Autowired
+    FederationRepository federationRepository;
 
     @ModelAttribute("disciplines")
     public Collection<Discipline> populateDisciplines() {
@@ -66,7 +71,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registery(@RequestParam(required = false) Boolean fighter, Model model,
+    public String registery(@RequestParam() String account, Model model,
                             @Valid User user, BindingResult result) {
 
         if (result.hasErrors()) {
@@ -76,10 +81,16 @@ public class HomeController {
             user.setRole("ROLE_USER");
             userRepository.save(user);
 
-            if(fighter != null){
+            if(account.equals("fighter")){
                 model.addAttribute("userEmail", user.getEmail());
                 model.addAttribute("singUpValidation", "fighter");
-                return"redirect:/registerFighter";
+                return"redirect:/registerfighter";
+            }
+
+            if(account.equals("menager")){
+                model.addAttribute("userEmail", user.getEmail());
+                model.addAttribute("singUpValidation", "menager");
+                return"redirect:/registerfederation";
             }
 
             Authentication auth = new UsernamePasswordAuthenticationToken(user,
@@ -92,12 +103,11 @@ public class HomeController {
 
 //  Fighter Registery
 
-    @RequestMapping(value = "/registerFighter", method = RequestMethod.GET)
+    @RequestMapping(value = "/registerfighter", method = RequestMethod.GET)
     public String fighter(Model model, HttpSession ses) {
 
         try {
             String validURL = (String) ses.getAttribute("singUpValidation");
-            System.out.print(validURL);
 
             if (validURL.equals("fighter")) {
                 model.addAttribute("fighterDetails", new FighterDetails());
@@ -113,7 +123,7 @@ public class HomeController {
     }
 
 
-    @RequestMapping(value = "/registerFighter", method = RequestMethod.POST)
+    @RequestMapping(value = "/registerfighter", method = RequestMethod.POST)
     public String fighterReg(@Valid FighterDetails fighterDetails, BindingResult result, HttpSession ses){
 
         if (result.hasErrors()) {
@@ -141,6 +151,53 @@ public class HomeController {
         return"redirect:/main";
     }
 
+
+    @RequestMapping(value = "/registerfederation", method = RequestMethod.GET)
+    public String registerFederation(Model model, HttpSession ses) {
+        try {
+            String validURL = (String) ses.getAttribute("singUpValidation");
+
+            if (validURL.equals("menager")) {
+                model.addAttribute("federation", new Federation());
+                return "registerFederation";
+
+            } else {
+                return "redirect:/register";
+            }
+
+        } catch (NullPointerException e) {
+            return "redirect:/register";
+        }
+    }
+
+    @RequestMapping(value = "/registerfederation", method = RequestMethod.POST)
+    public String regFederation(@Valid Federation federation,
+                                BindingResult result, HttpSession ses){
+
+        if (result.hasErrors()) {
+            return "registerFederation";
+        }
+        ses.removeAttribute("singUpValidation");
+        Optional<User> user = userRepository.findByEmail((String) ses.getAttribute("userEmail"));
+
+        user.ifPresent(u -> {
+                    u.setFederation(federation);
+                    federation.setMenager(u);
+                    userRepository.save(u);
+
+//            Adding Federation to be verified by admin
+                    Optional <AdminDetails> adminDetails = adminDetailsRepository.findById(1L);
+                    adminDetails.ifPresent(a -> {
+                        a.addUserToVerify(u);
+                        adminDetailsRepository.save(a);
+                    });
+
+                    Authentication auth = new UsernamePasswordAuthenticationToken(user,
+                            u.getPassword(), u.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+        });
+        return"redirect:/main";
+    }
 
 //    Menager Registery
 
