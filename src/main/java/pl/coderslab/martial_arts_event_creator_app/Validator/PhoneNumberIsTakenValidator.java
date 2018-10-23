@@ -14,11 +14,11 @@ public class PhoneNumberIsTakenValidator implements ConstraintValidator<PhoneNum
     @Override
     public boolean isValid(String phoneNumber, ConstraintValidatorContext constraintValidatorContext) {
         try {
-            if (userRepository.existsByPhoneNumber(phoneNumber)) {
-                return false;
-            } else {
-                return true;
-            }
+                if (userRepository.existsByPhoneNumber(phoneNumber)) {
+                    return false;
+                } else {
+                    return true;
+                }
         } catch (NullPointerException e) {
             return true;
         }
