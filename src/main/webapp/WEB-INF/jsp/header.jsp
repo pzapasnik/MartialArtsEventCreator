@@ -16,6 +16,11 @@
             <li><a href="<spring:url value="/events"/>">Events</a></li>
             <li><a href="<spring:url value="/fighters"/>">Fighters</a></li>
 
+            <sec:authorize access="hasRole('ROLE_ADMIN')" var="admin"/>
+            <c:if test="${admin}">
+                <li><a href="<spring:url value="/admin"/>">Administration Panel</a></li>
+            </c:if>
+
             <sec:authorize access="isAuthenticated()" var="authenticated"/>
             <c:choose>
                 <c:when test="${authenticated}">
