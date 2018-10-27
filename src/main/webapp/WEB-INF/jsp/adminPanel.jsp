@@ -3,6 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,8 +25,25 @@
 <body>
 <jsp:include page="header.jsp"/>
 <p>Fighters:</p>
-<c:forEach var="">
+<c:forEach items="${usersToVerify}" var="user">
+    <c:if test="${not empty user.getFighterDetails()}">
+        <p>Email: ${user.getEmail()}<br>
+           Team: ${user.getFighterDetails().getTeam()}<br>
+           <a href="<spring:url value="/admin/user/${user.getEmail()}"/>">More Details</a>
+           <a href="<spring:url value="/admin/verify/${user.getEmail()}"/>">Verify</a>
+        </p>
+    </c:if>
+</c:forEach>
 
+<p>Menagers:</p>
+<c:forEach items="${usersToVerify}" var="user">
+    <c:if test="${not empty user.getMenagerDetails()}">
+        <p>Email: ${user.getEmail()}<br>
+           Organization: ${user.getMenagerDetails().getOrganizationName()}<br>
+            <a href="<spring:url value="/admin/user/${user.getEmail()}"/>">More Details</a>
+            <a href="<spring:url value="/admin/verify/${user.getEmail()}"/>">Verify</a>
+        </p>
+    </c:if>
 </c:forEach>
 </body>
 </html>

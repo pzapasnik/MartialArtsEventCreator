@@ -16,7 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByPhoneNumber(String phoneNumber);
 
-    @Query(value = "SELECT * FROM User WHERE users_to_verify = 1", nativeQuery = true)
+    @Query(value = "SELECT * FROM user WHERE users_to_verify = 1", nativeQuery = true)
     HashSet<User> findAllUsersToVerify();
 
 }

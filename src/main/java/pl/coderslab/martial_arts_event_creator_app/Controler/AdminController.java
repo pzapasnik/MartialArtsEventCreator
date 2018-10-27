@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,7 @@ import pl.coderslab.martial_arts_event_creator_app.Repository.FighterDetailsRepo
 import pl.coderslab.martial_arts_event_creator_app.Repository.UserRepository;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.Optional;
 
 @PreAuthorize("hasAnyRole('ADMIN')")
@@ -33,7 +35,10 @@ public class AdminController {
     @Autowired
     AdminDetailsRepository adminDetailsRepository;
 
-
+    @ModelAttribute("usersToVerify")
+    public Collection<User> usersToVerify() {
+        return userRepository.findAllUsersToVerify();
+    }
 
 
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -74,8 +79,8 @@ public class AdminController {
 
 //    CUSTOM USER EDITION
 
-    @RequestMapping(value = "fighter/{email}", method = RequestMethod.GET)
-    public String customFighter(Model model, @PathVariable String email) {
+    @RequestMapping(value = "user/{email}", method = RequestMethod.GET)
+    public String customUser(Model model, @PathVariable String email) {
         Optional<User> u = userRepository.findByEmail(email);
         u.orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
@@ -86,8 +91,8 @@ public class AdminController {
         return "customfighter";
     }
 
-    @RequestMapping(value = "fighter/{email}", method = RequestMethod.POST)
-    public String customFighterVerification(@Valid User user, BindingResult result) {
+    @RequestMapping(value = "user/{email}", method = RequestMethod.POST)
+    public String customUserDetails(@Valid User user, BindingResult result) {
 
         if (result.hasErrors()) {
             return "customfighter";
