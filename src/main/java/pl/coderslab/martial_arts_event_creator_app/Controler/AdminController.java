@@ -34,6 +34,15 @@ public class AdminController {
     AdminDetailsRepository adminDetailsRepository;
 
 
+
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public String admin() {
+        return "adminPanel";
+    }
+
+
+
 //    FIGHTERS VERIFICATION
 
     @RequestMapping(value = "/fighters", method = RequestMethod.GET)

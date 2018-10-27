@@ -9,6 +9,6 @@ INSERT INTO fighter_details (id, discipline, gender, hight, team, weight, year_o
 
 INSERT INTO user (id, address, email, first_name, last_name, password, phone_number, role, users_to_verify) VALUES (3, "menagertest", "MENAGER@test.pl", "testmenager", "testmenager", "pr@cEk`123", "000002", "ROLE_USER", 1);
 
-INSERT INTO menager_details (id, organization_name, user_id, federations_to_verify) VALUES (1, "TEST FEDERACJA", 3, 1);
+INSERT INTO menager_details (id, organization_name, user_id) VALUES (1, "TEST FEDERACJA", 3);
 
 INSERT INTO user (id, address, email, first_name, last_name, password, phone_number, role) VALUES (4, "ADMIN", "ADMIN@test.pl", "admin", "admin", "pr@cEk`123", "000005", "ROLE_ADMIN");

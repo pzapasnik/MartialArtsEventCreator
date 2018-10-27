@@ -10,9 +10,6 @@ public class AdminDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "federations_to_verify")
-    private Set<MenagerDetails> federationsToVerify;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "users_to_verify")
@@ -27,14 +24,6 @@ public class AdminDetails {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Set<MenagerDetails> getFederationsToVerify() {
-        return federationsToVerify;
-    }
-
-    public void setFederationsToVerify(Set<MenagerDetails> federationsToVerify) {
-        this.federationsToVerify = federationsToVerify;
     }
 
     public Set<User> getUsersToVerify() {

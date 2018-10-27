@@ -23,7 +23,9 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
+<p>Fighters:</p>
+<c:forEach var="">
 
-
+</c:forEach>
 </body>
 </html>
