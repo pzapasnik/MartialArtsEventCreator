@@ -48,66 +48,44 @@ public class AdminController {
 
 
 
-//    FIGHTERS VERIFICATION
+//    USER VERIFICATION
 
-    @RequestMapping(value = "/fighters", method = RequestMethod.GET)
-    public String fighters() {
+    @RequestMapping(value = "/verify/{email}", method = RequestMethod.GET)
+    public String fighters(@PathVariable String email) {
 
+        AdminDetails admin = adminDetailsRepository.getOne(1L);
 
-        return "verifyfighters";
+        Optional<User> userToVerify = userRepository.findByEmail(email);
+        userToVerify.ifPresent(u -> {
+            if (u.getFighterDetails() != null) {
+                u.setRole("ROLE_FIGHTER");
+            }
+            if (u.getMenagerDetails() != null) {
+                u.setRole("ROLE_MENAGER");
+            }
+            userRepository.save(u);
+            admin.removeUserFromVerification(u);
+            adminDetailsRepository.save(admin);
+        });
+
+        return "redirect:/admin";
     }
 
-    @RequestMapping(value = "/fighters", method = RequestMethod.POST)
-    public String verifyFighters() {
-
-        return "";
-    }
-
-//    FEDERATION VERIFICATION
-
-    @RequestMapping(value = "/federation", method = RequestMethod.GET)
-    public String federation() {
-
-        return "verifyfederation";
-    }
-
-    @RequestMapping(value = "/federation", method = RequestMethod.POST)
-    public String verifyFederation() {
-
-        return "";
-    }
 
 //    CUSTOM USER EDITION
 
     @RequestMapping(value = "user/{email}", method = RequestMethod.GET)
     public String customUser(Model model, @PathVariable String email) {
-        Optional<User> u = userRepository.findByEmail(email);
-        u.orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        User user = u.map(user1 -> new User()).get();
-        FighterDetails fighterDetails = fighterDetailsRepository.findByUser(user);
-        model.addAttribute("user", user);
-        model.addAttribute("fighter", fighterDetails);
-        return "customfighter";
+        return "customUser";
     }
 
     @RequestMapping(value = "user/{email}", method = RequestMethod.POST)
     public String customUserDetails(@Valid User user, BindingResult result) {
 
         if (result.hasErrors()) {
-            return "customfighter";
+            return "customUser";
         }
-
-//        REMOVING USER FROM VERIFICATION LIST
-        Optional<AdminDetails> admin = adminDetailsRepository.findById(1L);
-        admin.orElseThrow(() -> new NullPointerException("No AdminDetails"));
-
-        admin.ifPresent( a -> {
-            a.removeUserFromVerification(user);
-            adminDetailsRepository.save(a);
-                }
-        );
-        userRepository.save(user);
 
         return "redirect:/admin";
 
