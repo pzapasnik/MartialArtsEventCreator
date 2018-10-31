@@ -3,6 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,8 +39,11 @@
     Address: <form:input path="address"/><br>
     <form:errors path="address" cssClass="error"/><br>
     <sec:csrfInput/>
-    <c:if test="${userDetails}}"
-    <button type="submit">Edit</button>
+
+    <c:if test="${not empty userDetails}">
+        <button name="editUserDetails" type="submit" value="1">Edit User Details</button>
+    </c:if>
+    <button type="submit">Save</button>
 </form:form>
 </body>
 </html>

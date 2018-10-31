@@ -14,6 +14,7 @@ import pl.coderslab.martial_arts_event_creator_app.Repository.FighterDetailsRepo
 import pl.coderslab.martial_arts_event_creator_app.Repository.MenagerDetailsRepository;
 import pl.coderslab.martial_arts_event_creator_app.Repository.UserRepository;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Optional;
@@ -75,16 +76,16 @@ public class AdminController {
 
 //    CUSTOM USER EDITION
 
-    @RequestMapping(value = "user/{email}", method = RequestMethod.GET)
+    @RequestMapping(value = "user/edit/{email}", method = RequestMethod.GET)
     public String customUser(Model model, @PathVariable String email) {
 
         Optional<User> user = userRepository.findByEmail(email);
         user.ifPresent(u -> {
             if (u.getFighterDetails() != null) {
-                model.addAttribute("userDetails", fighterDetailsRepository.findByUser(u));
+                model.addAttribute("userDetails", "fighter");
             }
             if (u.getMenagerDetails() != null) {
-                model.addAttribute("userDetails", menagerDetailsRepository.findByMenager(u));
+                model.addAttribute("userDetails", "menager");
             }
 
             model.addAttribute("user", u);
@@ -93,12 +94,31 @@ public class AdminController {
         return "customUserEdit";
     }
 
-    @RequestMapping(value = "user/{email}", method = RequestMethod.POST)
-    public String customUserDetails(@Valid User user, BindingResult result) {
+    @RequestMapping(value = "user/edit/{email}", method = RequestMethod.POST)
+    public String customUserDetails(HttpSession ses,Model model, @RequestParam(required = false) String editUserDetails,
+                                    @Valid User user, BindingResult result) {
 
         if (result.hasErrors()) {
             return "customUserEdit";
         }
+        userRepository.save(user);
+
+        if (editUserDetails != null) {
+            String userDetails = (String) ses.getAttribute("userDetails");
+
+            if (userDetails.equals("fighter")) {
+                model.addAttribute("fighterDetails", fighterDetailsRepository.findByUser(user));
+
+                return "redirect:/fighterDetailsEdit";
+            }
+
+            if (userDetails.equals("menager")) {
+                model.addAttribute("menagerDetails", menagerDetailsRepository.findByMenager(user));
+
+                return "redirect:/menagerDetailsEdit";
+            }
+        }
+
 
         return "redirect:/admin";
 

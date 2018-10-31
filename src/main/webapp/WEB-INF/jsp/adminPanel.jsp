@@ -24,12 +24,14 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
+
 <p>Fighters:</p>
 <c:forEach items="${usersToVerify}" var="user">
     <c:if test="${not empty user.getFighterDetails()}">
         <p>Email: ${user.getEmail()}<br>
            Team: ${user.getFighterDetails().getTeam()}<br>
            <a href="<spring:url value="/admin/user/${user.getEmail()}"/>">More Details</a>
+           <a href="<spring:url value="/admin/user/edit/${user.getEmail()}"/>">Edit User</a>
            <a href="<spring:url value="/admin/verify/${user.getEmail()}"/>">Verify</a>
         </p>
     </c:if>
@@ -41,6 +43,7 @@
         <p>Email: ${user.getEmail()}<br>
            Organization: ${user.getMenagerDetails().getOrganizationName()}<br>
             <a href="<spring:url value="/admin/user/${user.getEmail()}"/>">More Details</a>
+            <a href="<spring:url value="/admin/user/edit/${user.getEmail()}"/>">Edit User</a>
             <a href="<spring:url value="/admin/verify/${user.getEmail()}"/>">Verify</a>
         </p>
     </c:if>

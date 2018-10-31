@@ -67,7 +67,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registery(@RequestParam() String account, Model model,
+    public String registery(@RequestParam String account, Model model,
                             @Valid User user, BindingResult result) {
 
         if (result.hasErrors()) {
