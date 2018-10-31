@@ -2,14 +2,10 @@ package pl.coderslab.martial_arts_event_creator_app.Controler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.AdminDetails;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.FighterDetails;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.User;
@@ -24,6 +20,7 @@ import java.util.Optional;
 @PreAuthorize("hasAnyRole('ADMIN')")
 @RequestMapping("/admin")
 @Controller
+@SessionAttributes(value = {"userdetails"})
 public class AdminController {
 
     @Autowired
@@ -76,6 +73,18 @@ public class AdminController {
 
     @RequestMapping(value = "user/{email}", method = RequestMethod.GET)
     public String customUser(Model model, @PathVariable String email) {
+
+        Optional<User> user = userRepository.findByEmail(email);
+        user.ifPresent(u -> {
+            if (u.getFighterDetails() != null) {
+                model.addAttribute("userdetails", fighterDetailsRepository.findByUser(u));
+            }
+            if (u.getMenagerDetails() != null) {
+                model.addAttribute("userdetails", )
+            }
+
+            model.addAttribute("user")
+        });
 
         return "customUser";
     }
