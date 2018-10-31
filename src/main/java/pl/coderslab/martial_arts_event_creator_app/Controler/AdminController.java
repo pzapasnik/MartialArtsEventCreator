@@ -11,6 +11,7 @@ import pl.coderslab.martial_arts_event_creator_app.Model.User.FighterDetails;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.User;
 import pl.coderslab.martial_arts_event_creator_app.Repository.AdminDetailsRepository;
 import pl.coderslab.martial_arts_event_creator_app.Repository.FighterDetailsRepository;
+import pl.coderslab.martial_arts_event_creator_app.Repository.MenagerDetailsRepository;
 import pl.coderslab.martial_arts_event_creator_app.Repository.UserRepository;
 
 import javax.validation.Valid;
@@ -20,7 +21,7 @@ import java.util.Optional;
 @PreAuthorize("hasAnyRole('ADMIN')")
 @RequestMapping("/admin")
 @Controller
-@SessionAttributes(value = {"userdetails"})
+@SessionAttributes(value = {"userDetails"})
 public class AdminController {
 
     @Autowired
@@ -28,6 +29,9 @@ public class AdminController {
 
     @Autowired
     FighterDetailsRepository fighterDetailsRepository;
+
+    @Autowired
+    MenagerDetailsRepository menagerDetailsRepository;
 
     @Autowired
     AdminDetailsRepository adminDetailsRepository;
@@ -77,23 +81,23 @@ public class AdminController {
         Optional<User> user = userRepository.findByEmail(email);
         user.ifPresent(u -> {
             if (u.getFighterDetails() != null) {
-                model.addAttribute("userdetails", fighterDetailsRepository.findByUser(u));
+                model.addAttribute("userDetails", fighterDetailsRepository.findByUser(u));
             }
             if (u.getMenagerDetails() != null) {
-                model.addAttribute("userdetails", )
+                model.addAttribute("userDetails", menagerDetailsRepository.findByMenager(u));
             }
 
-            model.addAttribute("user")
+            model.addAttribute("user", u);
         });
 
-        return "customUser";
+        return "customUserEdit";
     }
 
     @RequestMapping(value = "user/{email}", method = RequestMethod.POST)
     public String customUserDetails(@Valid User user, BindingResult result) {
 
         if (result.hasErrors()) {
-            return "customUser";
+            return "customUserEdit";
         }
 
         return "redirect:/admin";
