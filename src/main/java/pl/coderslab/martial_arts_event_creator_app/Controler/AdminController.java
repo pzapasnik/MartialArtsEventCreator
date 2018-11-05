@@ -133,4 +133,20 @@ public class AdminController {
 
 //    VIEW USER INFO
 
+    @RequestMapping(value = "user/{email}", method = RequestMethod.GET)
+    public String viewUserDetails(Model model, @PathVariable String email){
+        User user = userRepository.findByEmail(email);
+        model.addAttribute("user", user);
+
+        if (user.getFighterDetails() != null) {
+            model.addAttribute("details", fighterDetailsRepository.findByUser(user));
+        }
+
+        if (user.getMenagerDetails() != null) {
+            model.addAttribute("details", menagerDetailsRepository.findByMenager(user));
+        }
+
+        return "customUserDetails";
+    }
+
 }
