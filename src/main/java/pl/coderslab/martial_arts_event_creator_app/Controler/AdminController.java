@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.AdminDetails;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.FighterDetails;
+import pl.coderslab.martial_arts_event_creator_app.Model.User.MenagerDetails;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.User;
 import pl.coderslab.martial_arts_event_creator_app.Repository.AdminDetailsRepository;
 import pl.coderslab.martial_arts_event_creator_app.Repository.FighterDetailsRepository;
@@ -57,18 +58,17 @@ public class AdminController {
 
         AdminDetails admin = adminDetailsRepository.getOne(1L);
 
-        Optional<User> userToVerify = userRepository.findByEmail(email);
-        userToVerify.ifPresent(u -> {
-            if (u.getFighterDetails() != null) {
-                u.setRole("ROLE_FIGHTER");
+        User userToVerify = userRepository.findByEmail(email);
+
+            if (userToVerify.getFighterDetails() != null) {
+                userToVerify.setRole("ROLE_FIGHTER");
             }
-            if (u.getMenagerDetails() != null) {
-                u.setRole("ROLE_MENAGER");
+            if (userToVerify.getMenagerDetails() != null) {
+                userToVerify.setRole("ROLE_MENAGER");
             }
-            userRepository.save(u);
-            admin.removeUserFromVerification(u);
+            userRepository.save(userToVerify);
+            admin.removeUserFromVerification(userToVerify);
             adminDetailsRepository.save(admin);
-        });
 
         return "redirect:/admin";
     }
@@ -79,49 +79,58 @@ public class AdminController {
     @RequestMapping(value = "user/edit/{email}", method = RequestMethod.GET)
     public String customUser(Model model, @PathVariable String email) {
 
-        Optional<User> user = userRepository.findByEmail(email);
-        user.ifPresent(u -> {
-            if (u.getFighterDetails() != null) {
-                model.addAttribute("userDetails", "fighter");
-            }
-            if (u.getMenagerDetails() != null) {
-                model.addAttribute("userDetails", "menager");
-            }
-
-            model.addAttribute("user", u);
-        });
+        User user = userRepository.findByEmail(email);
+        model.addAttribute("user", user);
 
         return "customUserEdit";
     }
 
     @RequestMapping(value = "user/edit/{email}", method = RequestMethod.POST)
-    public String customUserDetails(HttpSession ses,Model model, @RequestParam(required = false) String editUserDetails,
-                                    @Valid User user, BindingResult result) {
-
+    public String customUserEdition(@Valid User user, BindingResult result) {
         if (result.hasErrors()) {
             return "customUserEdit";
         }
         userRepository.save(user);
 
-        if (editUserDetails != null) {
-            String userDetails = (String) ses.getAttribute("userDetails");
-
-            if (userDetails.equals("fighter")) {
-                model.addAttribute("fighterDetails", fighterDetailsRepository.findByUser(user));
-
-                return "redirect:/fighterDetailsEdit";
-            }
-
-            if (userDetails.equals("menager")) {
-                model.addAttribute("menagerDetails", menagerDetailsRepository.findByMenager(user));
-
-                return "redirect:/menagerDetailsEdit";
-            }
-        }
-
-
         return "redirect:/admin";
+    }
+// CUSTOM USER DETAILS EDITION
 
+    @RequestMapping(value = "user/editfighterdetails/{email}", method = RequestMethod.GET)
+    public String customFighterDetails(Model model, @PathVariable String email) {
+
+        User user = userRepository.findByEmail(email);
+        model.addAttribute("fighterDetails", fighterDetailsRepository.findByUser(user));
+        return "customFighterEdit";
     }
 
+    @RequestMapping(value = "user/editfighterdetails/{email}", method = RequestMethod.POST)
+    public String customFighterEdition(@Valid FighterDetails fighterDetails, BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "customFighterEdit";
+        }
+        fighterDetailsRepository.save(fighterDetails);
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "user/editmenagerdetails/{email}", method = RequestMethod.GET)
+    public String customMenagerDetails(Model model, @PathVariable String email) {
+
+        User user = userRepository.findByEmail(email);
+        model.addAttribute("menagerDetails", menagerDetailsRepository.findByMenager(user));
+        return "customMenagerEdit";
+    }
+
+    @RequestMapping(value = "user/editmenagerdetails/{email}", method = RequestMethod.POST)
+    public String customMenagerEdition(@Valid MenagerDetails menagerDetails, BindingResult result){
+        if (result.hasErrors()) {
+            return "customMenagerEdit";
+        }
+        menagerDetailsRepository.save(menagerDetails);
+        return "redirect:/";
+    }
+
+//    VIEW USER INFO
+    
 }

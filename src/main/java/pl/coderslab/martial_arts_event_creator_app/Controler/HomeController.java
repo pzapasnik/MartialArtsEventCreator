@@ -126,24 +126,24 @@ public class HomeController {
             return"registerFighter";
         }
         ses.removeAttribute("singUpValidation");
-        Optional<User> user = userRepository.findByEmail((String) ses.getAttribute("userEmail"));
+        User user = userRepository.findByEmail((String) ses.getAttribute("userEmail"));
 
-        user.ifPresent(u -> {
-            u.setFighterDetails(fighterDetails);
-            fighterDetails.setUser(u);
-            userRepository.save(u);
+            user.setFighterDetails(fighterDetails);
+            fighterDetails.setUser(user);
+            userRepository.save(user);
 
 //            Adding Fighter to be verified by admin
+
             Optional <AdminDetails> adminDetails = adminDetailsRepository.findById(1L);
             adminDetails.ifPresent(a -> {
-                a.addUserToVerify(u);
+                a.addUserToVerify(user);
                 adminDetailsRepository.save(a);
             });
 
             Authentication auth = new UsernamePasswordAuthenticationToken(user,
-                    u.getPassword(), u.getAuthorities());
+                    user.getPassword(), user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);
-        });
+
         return"redirect:/main";
     }
 
@@ -174,24 +174,24 @@ public class HomeController {
             return "registerMenager";
         }
         ses.removeAttribute("singUpValidation");
-        Optional<User> user = userRepository.findByEmail((String) ses.getAttribute("userEmail"));
+        User user = userRepository.findByEmail((String) ses.getAttribute("userEmail"));
 
-        user.ifPresent(u -> {
-                    u.setMenagerDetails(menagerDetails);
-                    menagerDetails.setMenager(u);
-                    userRepository.save(u);
+        user.setMenagerDetails(menagerDetails);
+        menagerDetails.setMenager(user);
+        userRepository.save(user);
 
-//            Adding MenagerDetails to be verified by admin
-                    Optional <AdminDetails> adminDetails = adminDetailsRepository.findById(1L);
-                    adminDetails.ifPresent(a -> {
-                        a.addUserToVerify(u);
-                        adminDetailsRepository.save(a);
-                    });
+//       Adding MenagerDetails to be verified by admin
 
-                    Authentication auth = new UsernamePasswordAuthenticationToken(user,
-                            u.getPassword(), u.getAuthorities());
-                    SecurityContextHolder.getContext().setAuthentication(auth);
+        Optional <AdminDetails> adminDetails = adminDetailsRepository.findById(1L);
+        adminDetails.ifPresent(a -> {
+            a.addUserToVerify(user);
+            adminDetailsRepository.save(a);
         });
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(user,
+                user.getPassword(), user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
         return"redirect:/main";
     }
 }

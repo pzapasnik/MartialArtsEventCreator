@@ -32,6 +32,7 @@
            Team: ${user.getFighterDetails().getTeam()}<br>
            <a href="<spring:url value="/admin/user/${user.getEmail()}"/>">More Details</a>
            <a href="<spring:url value="/admin/user/edit/${user.getEmail()}"/>">Edit User</a>
+           <a href="<spring:url value="/admin/user/editfighterdetails/${user.getEmail()}"/>">Edit User Details</a>
            <a href="<spring:url value="/admin/verify/${user.getEmail()}"/>">Verify</a>
         </p>
     </c:if>
@@ -44,6 +45,7 @@
            Organization: ${user.getMenagerDetails().getOrganizationName()}<br>
             <a href="<spring:url value="/admin/user/${user.getEmail()}"/>">More Details</a>
             <a href="<spring:url value="/admin/user/edit/${user.getEmail()}"/>">Edit User</a>
+            <a href="<spring:url value="/admin/user/editmenagerdetails/${user.getEmail()}"/>">Edit User Details</a>
             <a href="<spring:url value="/admin/verify/${user.getEmail()}"/>">Verify</a>
         </p>
     </c:if>

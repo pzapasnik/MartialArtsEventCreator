@@ -26,9 +26,7 @@
 <jsp:include page="header.jsp"/>
 
 <form:form method="post" modelAttribute="user">
-    Email: <form:input path="email" /><br>
-    <form:errors path="email" cssClass="error"/><br>
-    Password: <form:password path="password" /><br>
+    Password: <form:input path="password" /><br>
     <form:errors path="password" cssClass="error"/><br>
     First Name: <form:input path="firstName"/><br>
     <form:errors path="firstName" cssClass="error"/><br>
@@ -40,9 +38,6 @@
     <form:errors path="address" cssClass="error"/><br>
     <sec:csrfInput/>
 
-    <c:if test="${not empty userDetails}">
-        <button name="editUserDetails" type="submit" value="1">Edit User Details</button>
-    </c:if>
     <button type="submit">Save</button>
 </form:form>
 </body>
