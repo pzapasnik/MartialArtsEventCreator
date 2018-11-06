@@ -3,6 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,28 +24,36 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
+<p>User Details:<br/>
+    Email: ${user.getEmail()}<br/>
+    First Name: ${user.getFirstName()}<br/>
+    Last Name: ${user.getLastName()}<br/>
+    Phone Number: ${user.getPhoneNumber()}<br/>
+    Address: ${user.getAddress()}<br/>
+    Role: ${user.getRole()}<br/>
+</p>
 
-<form:form method="post" modelAttribute="fighterDetails">
-    Team: <form:input path="team"/><br>
-    <form:errors path="team" cssClass="error"/><br>
-    Weight: <form:input path="weight"/><br>
-    <form:errors path="weight" cssClass="error"/><br>
-    Hight: <form:input path="hight"/><br>
-    <form:errors path="hight" cssClass="error"/><br>
+<c:if test="${not empty user.getFighterDetails()}">
+    <p>Fighter Details:<br/>
+        Weight: ${details.getWeight()}<br/>
+        Hight: ${details.getHight()}<br/>
+        Year of Birth: ${details.getYearOfBirth()}<br/>
+        Gender: ${details.getGender()}<br/>
+        Discipline: ${details.getDiscipline()}<br/>
+        Weight Class: ${details.getWeightClass()}<br/>
+        Team: ${details.getTeam()}<br/>
+        Fight Score: ${details.getAmatureFightsScore()}<br/>
+    </p>
+</c:if>
 
-    Birth Year <form:input path="yearOfBirth" type="date"  /><br>
-    <form:errors path="yearOfBirth" cssClass="error"/><br>
+<c:if test="${not empty user.getMenagerDetails()}">
+    <p>Menager Details:<br/>
+        Organization: ${details.getOrganizationName()}<br/>
+    </p>
 
-    Gender: <br/>
-    MALE:<form:radiobutton path="gender" value="MALE" /><br>
-    FEMALE:<form:radiobutton path="gender" value="FEMALE" />
-    <form:errors path="gender" cssClass="error"/><br>
+</c:if>
 
-    Discipline: <form:select path="discipline" items="${disciplines}" itemLabel="label"/><br>
-    <form:errors path="discipline" cssClass="error"/><br>
-    <sec:csrfInput/>
-    <button type="submit">Save</button>
-</form:form>
+<a href="<spring:url value="/admin/verify/${user.getEmail()}"/>">Verify</a>
 
 </body>
 </html>

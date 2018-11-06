@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.martial_arts_event_creator_app.Enum.Discipline;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.AdminDetails;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.FighterDetails;
 import pl.coderslab.martial_arts_event_creator_app.Model.User.MenagerDetails;
@@ -17,7 +18,9 @@ import pl.coderslab.martial_arts_event_creator_app.Repository.UserRepository;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @PreAuthorize("hasAnyRole('ADMIN')")
@@ -37,6 +40,14 @@ public class AdminController {
 
     @Autowired
     AdminDetailsRepository adminDetailsRepository;
+
+    @ModelAttribute("disciplines")
+    public Collection<Discipline> populateDisciplines() {
+        List<Discipline> disciplines = new ArrayList<>();
+        disciplines.add(Discipline.MIXED_MARCIAL_ARTS);
+        disciplines.add(Discipline.KICKBOXING);
+        return disciplines;
+    }
 
     @ModelAttribute("usersToVerify")
     public Collection<User> usersToVerify() {
@@ -90,9 +101,10 @@ public class AdminController {
         if (result.hasErrors()) {
             return "customUserEdit";
         }
+        System.out.print("jestem w poscie");
         userRepository.save(user);
 
-        return "redirect:/admin";
+        return "redirect:/";
     }
 // CUSTOM USER DETAILS EDITION
 
