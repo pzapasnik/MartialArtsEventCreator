@@ -25,10 +25,12 @@
 <jsp:include page="header.jsp"/>
 
 <form:form method="post" modelAttribute="menagerDetails">
+    <form:hidden path="id" />
+    <form:hidden path="menager"/>
     Federation Name: <form:input path="organizationName"/><br>
     <form:errors path="organizationName" cssClass="error"/><br>
     <sec:csrfInput/>
-    <button type="submit">Register</button>
+    <button type="submit">Save</button>
 </form:form>
 
 </body>

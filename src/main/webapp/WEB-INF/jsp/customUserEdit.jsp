@@ -25,7 +25,11 @@
 <body>
 <jsp:include page="header.jsp"/>
 
-<form:form method="post" modelAttribute="user">
+<form:form method="post" modelAttribute="user" action="">
+    <form:hidden path="id"/>
+    <form:hidden path="email"/>
+    <form:hidden path="fighterDetails"/>
+    <form:hidden path="menagerDetails"/>
     Password: <form:input path="password" /><br>
     <form:errors path="password" cssClass="error"/><br>
     First Name: <form:input path="firstName"/><br>

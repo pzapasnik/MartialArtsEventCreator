@@ -97,14 +97,14 @@ public class AdminController {
     }
 
     @RequestMapping(value = "user/edit/{email}", method = RequestMethod.POST)
-    public String customUserEdition(@Valid User user, BindingResult result) {
+    public String customUserEdition(@Valid @ModelAttribute User user, BindingResult result) {
         if (result.hasErrors()) {
             return "customUserEdit";
         }
         System.out.print("jestem w poscie");
         userRepository.save(user);
 
-        return "redirect:/";
+        return "redirect:/admin";
     }
 // CUSTOM USER DETAILS EDITION
 
@@ -117,13 +117,13 @@ public class AdminController {
     }
 
     @RequestMapping(value = "user/editfighterdetails/{email}", method = RequestMethod.POST)
-    public String customFighterEdition(@Valid FighterDetails fighterDetails, BindingResult result) {
+    public String customFighterEdition(@Valid @ModelAttribute FighterDetails fighterDetails, BindingResult result) {
 
         if (result.hasErrors()) {
             return "customFighterEdit";
         }
         fighterDetailsRepository.save(fighterDetails);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
     @RequestMapping(value = "user/editmenagerdetails/{email}", method = RequestMethod.GET)
@@ -135,12 +135,12 @@ public class AdminController {
     }
 
     @RequestMapping(value = "user/editmenagerdetails/{email}", method = RequestMethod.POST)
-    public String customMenagerEdition(@Valid MenagerDetails menagerDetails, BindingResult result){
+    public String customMenagerEdition(@Valid @ModelAttribute MenagerDetails menagerDetails, BindingResult result){
         if (result.hasErrors()) {
             return "customMenagerEdit";
         }
         menagerDetailsRepository.save(menagerDetails);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
 //    VIEW USER INFO

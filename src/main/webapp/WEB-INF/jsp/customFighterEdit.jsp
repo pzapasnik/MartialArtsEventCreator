@@ -25,6 +25,8 @@
 <jsp:include page="header.jsp"/>
 
 <form:form method="post" modelAttribute="fighterDetails">
+    <form:hidden path="id"/>
+    <form:hidden path="user"/>
     Team: <form:input path="team"/><br>
     <form:errors path="team" cssClass="error"/><br>
     Weight: <form:input path="weight"/><br>
